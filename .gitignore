@@ -29,6 +29,8 @@ wheels/
 *.ckpt
 *.bin
 *.safetensors
+model.safetensors*
+merges.txt
 
 # IDE
 .vscode/
