@@ -1,0 +1,26 @@
+# Replicate Cog configuration for Qwen 3.5 9B fine-tuned model
+build:
+  gpu: true
+  python_version: "3.11"
+  cuda: "12.1"
+  system_packages:
+    - "git"
+    - "git-lfs"
+  python_packages:
+    - "torch==2.1.2"
+    - "torchvision==0.16.2"
+    - "torchaudio==2.1.2"
+    - "transformers==4.36.2"
+    - "safetensors==0.4.1"
+    - "peft==0.7.1"
+    - "bitsandbytes==0.41.3"
+    - "accelerate==0.25.0"
+
+image: "python:3.11-slim-bookworm"
+
+run:
+  - "pip install --upgrade pip"
+  - "pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121"
+  - "pip install transformers safetensors peft bitsandbytes accelerate"
+
+predict: "predict.py:Predictor"

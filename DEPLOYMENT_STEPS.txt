@@ -1,0 +1,95 @@
+REPLICATE DEPLOYMENT STEPS
+==========================
+
+Your folder is ready with all the necessary files:
+- cog.yaml (configuration)
+- predict.py (inference code)
+- Model files from Hugging Face
+
+STEP 1: Install Cog CLI properly
+---------------------------------
+Run in PowerShell as Administrator:
+  pip install --upgrade cog
+
+Then verify:
+  cog --version
+
+
+STEP 2: Create Replicate Model (if not done)
+---------------------------------------------
+1. Go to https://replicate.com/create
+2. Click "Create a new model"
+3. Choose a name like "qwen3.5-9b-masidy"
+4. Select visibility (Public/Private)
+5. Copy the git push URL provided
+
+
+STEP 3: Set up Git for Replicate
+---------------------------------
+In this folder, run:
+  git init
+  git remote add origin <paste-the-git-url-from-replicate>
+  git add .
+  git commit -m "Initial Replicate setup"
+  git push -u origin main
+
+
+STEP 4: Add Hugging Face Token as Secret
+-----------------------------------------
+1. Go to your model page on Replicate
+2. Click Settings
+3. Add Secret:
+   - Key: HF_TOKEN
+   - Value: <your-huggingface-token>
+
+
+STEP 5: Trigger the Build on Replicate
+---------------------------------------
+Option A (via Replicate Web):
+1. Go to https://replicate.com/<your-username>/<model-name>
+2. Click "Push a new version"
+3. Select the git branch (main)
+4. Click Build
+
+
+Option B (via Cog CLI):
+  cog push r8.im/<your-username>/<model-name>
+
+
+STEP 6: Wait for Build to Complete
+-----------------------------------
+Monitor at: https://replicate.com/<your-username>/<model-name>
+Check the "Builds" tab for status
+
+
+TROUBLESHOOTING
+===============
+
+If build fails:
+
+1. Missing HF_TOKEN:
+   - Add the secret in Replicate Settings
+   - Rebuild
+
+2. Model not found on Hugging Face:
+   - Verify model is public or token has access
+   - Check model URL: https://huggingface.co/masidyai/qwen3.5-9b-masidy
+
+3. Memory issues:
+   - Replace "predict.py" with "predict_8bit.py" content
+   - This uses 8-bit quantization
+
+4. Build timeout:
+   - This is normal for large models
+   - Replicate has generous timeout limits
+   - Check logs for actual errors
+
+
+GETTING YOUR REPLICATE CREDENTIALS
+===================================
+
+You need:
+1. Replicate API Token: https://replicate.com/account/api-tokens
+2. Your username: https://replicate.com/account
+
+Get Hugging Face Token: https://huggingface.co/settings/tokens
